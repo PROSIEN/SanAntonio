@@ -12,7 +12,7 @@
     session_destroy();
 
 //Redirecciona a la página de login
-    header('location: inicio.html');
+    header('location: index.html');
 ?>
   </body>
 </html>

@@ -42,7 +42,7 @@ function formato_detalle($detalle){
         $mes = $fecha['mon'];
     }
     $hoy = $fecha['year'] . "/" . $mes . "/" . $fecha['mday'];
-    $url = "http://172.16.31.111:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awscpp?wsdl";
+    $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awscpp?wsdl";
     $par = array(
         'Empcod' => $_SESSION['emp_usuario'],
         'Fecini' => $hoy,

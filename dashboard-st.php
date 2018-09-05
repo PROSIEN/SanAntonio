@@ -95,7 +95,7 @@ if (isset($_POST['rut']) and isset($_POST['folio'])){
     $Sttdocto = "ST";
     $st=$_SESSION['pass_usuario'];
     $emp=5;
-    $url = "http://172.16.31.111:8080/xwabagx15JE/servlet/com.xwabagx15.webservice.awssteve?wsdl";
+    $url = "http://localhost:8080/xwabagx15JE/servlet/com.xwabagx15.webservice.awssteve?wsdl";
     $par = array(
         'Empcod' => $emp,
         'Sttdocto' => $Sttdocto,
@@ -209,7 +209,7 @@ if (isset($_POST['rut']) and isset($_POST['folio'])){
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li><a href="login-st.html"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
+                        <li><a href="index.html"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
                         </li>
                     </ul>
                 </div>

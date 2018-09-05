@@ -114,7 +114,7 @@
         return strrev($tmp);
     }
 
-    $url = "http://172.16.31.111:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsecu?wsdl";
+    $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsecu?wsdl";
     $par = array(
         'Empcod' => $_SESSION['emp_usuario'], 
         'Rut' => $_SESSION['id_usuario'], 
