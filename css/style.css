@@ -1,0 +1,14 @@
+.animar {
+    transform: translate(0,5000px);
+    -webkit-transform: translate(0,5000px);
+    -o-transform: translate(0,5000px);
+    -moz-transform: translate(0,5000px);
+    transition: all 3s linear;
+}
+.volver{
+  transform: translate(0,0px);
+  -webkit-transform: translate(0,0px);
+  -o-transform: translate(0,0px);
+  -moz-transform: translate(0,0px);
+  transition: all 1s linear; //cambia la velocidad y la aceleracion...
+}

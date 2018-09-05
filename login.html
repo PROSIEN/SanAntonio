@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login Autoconsulta</title>
+    <link rel="shorcut icon" href="img/sanantonio.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--scripts del spinner -->
+    <script type="text/javascript">
+      function spinner() {
+      	document.getElementById('waitani').style.visibility = 'visible';
+        document.getElementById('contenido').style.visibility = 'hidden';
+      }
+
+      function spinneroff() {
+      	document.getElementById('waitani').style.visibility = 'visible';
+        document.getElementById('contenido').style.visibility = 'hidden';
+      }
+    </script>
+    <script type="text/javascript">
+        var focos=[]; //arreglo para guardar los focos.
+        function id( el ){
+                return document.getElementById( el );
+        }
+        function val( destino, valor ){
+                destino.value += valor;
+        }
+        var focus = false;
+        window.onload = function(){
+                var botoes = id('teclado').getElementsByTagName('input');
+                for( var i=0; i<botoes.length; i++ ){
+                        botoes[i].onclick = function(){
+                                if( !focus ){ alert('toque en algun campo');exit(); }
+
+                                val( id( focus ), this.value );
+                                id( focus ).focus();
+                        }
+                }
+                var inputs = id('area').getElementsByTagName('input');
+                for( var i=0; i<inputs.length; i++ ){
+                        inputs[i].onfocus = function(){
+                                focus = this.id;
+                                focos.push(this.id);//guarda el ultimo foco
+                        }
+                }
+                id('entrada_1').focus();
+        }
+        //funcion para borrar el ultimo elemento
+        function deleteTag(){
+          var largo=focos.length;
+          var Ultimofoco= focos[largo-1];
+          var strng=document.getElementById(Ultimofoco).value;
+          document.getElementById(Ultimofoco).value=strng.substring(0,strng.length-1);
+        }
+      </script>
+  
+  </head>
+
+<body onunload="spinneroff();">
+  <div id="wrapper">
+    <div id="waitani" style="position: absolute;top:98px;left:532px;width:88px;height:85px;z-index: 999;visibility: hidden;"><img src="img/loading.gif" height="100%" width="100%" /></div>
+    <div id="contenido" class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading text-center">
+                        <img src="img/Autoconsulta.png" style="z-index: 999;">
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="POST" action="dashboard.php" onsubmit="spinner();">
+                            <fieldset id="area">
+                                <div class="form-group">
+                                    <label>RUT</label>
+                                    <input id="entrada_1" class="form-control input input_rut" placeholder="Ingrese rut sin puntos ni guión" autocomplete="off" type="text" name="rut">
+                                </div>
+                                <div class="form-group">
+                                  <label>Contraseña</label>
+                                    <input id="entrada_2" class="form-control input" placeholder="Contraseña" type="password" name="pass" >
+                                </div> 
+                                <div class="col-md-6">
+                                  <button type="submit" class="btn btn-lg btn-success btn-block">Entrar</button>
+                                </div>
+                                <div class="col-md-6">
+                                  <button type="button" class="btn btn-lg btn-danger btn-block" name="clean" onclick="deleteTag()"><i class="fa fa-caret-square-o-left"></i> Borrar</button>
+                                </div>
+                              </fieldset>
+                        </form>
+                    </div>
+                </div>
+              </div>
+          </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <div class="alert alert-warning text-center">
+                  <button type="button" class="btn btn-warning btn-circle"><i class="fa fa-question"></i>
+                  </button>
+                  Si no tiene aun su clave, solicitela en crédito
+                </div>
+                  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3 text-center">
+                    <div class="btn-group">
+                      <fieldset> <!-- no me preguntes porque es necesario este fieldset, pero sin el el boton se ve feo-->
+                        <fieldset id="teclado">
+                          <fieldset id="numbers">
+                            <fieldset style="padding-bottom: 4px;">
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="1" value="1" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="2" value="2" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="3" value="3" />
+                            </fieldset>
+                            <fieldset style="padding-bottom: 4px;">
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="4" value="4" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="5" value="5" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="6" value="6" />
+                            </fieldset>
+                            <fieldset style="padding-bottom: 4px;">
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="7" value="7" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="8" value="8" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="9" value="9" />
+                            </fieldset>
+                            <fieldset>
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="0" value="0" />
+                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="K" value="K" />
+                            </fieldset>
+                          </fieldset>
+                        </fieldset>
+                    </fieldset>
+                    </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3 text-center">
+                <a href="index.html">
+                  <button type="button" class="btn btn-info btn-lg"><i class="fa fa-home"></i> Volver</button>
+                </a>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="dist/js/sb-admin-2.js"></script>
+    </body>
+
+</html>
