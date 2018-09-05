@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>AutoConsulta San Antonio</title>
+    <title>AutoConsulta</title>
     <link rel="shorcut icon" href="img/sanantonio.ico">
 
     <!-- Bootstrap Core CSS -->
@@ -34,71 +34,61 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="js/animar.js"></script>
 
 </head>
 
-<body>
+<body style="font-size: 24px;">
     <?php
         error_reporting(0);
-        session_start(); 
-        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
-            // last request was more than 30 minutes ago
+        session_start();
+        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 45)) {
+            // last request was more than 45 segundos
             session_unset();     // unset $_SESSION variable for the run-time
             session_destroy();   // destroy session data in
             header('location: login.html');
         }
+        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
     ?>
     <div id="wrapper">
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="dashboard.php"><img src="img/Logo-Autoconsulta.png" style="margin-top: -15px;"></a>
+                <a class="navbar-brand" href="dashboard.php"><img src="img/Logo-Autoconsulta.png"></a>
+                <br><br>
             </div>
             <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i><?php print_r($_SESSION['id_usuario'])?></a>
+            <!-- Genrera valores -->
+            <ul class="nav navbar-top-links navbar-right ">
+                <li>
+                  <a href="ticket-eecc.php"><button type="button" class="btn btn-info btn-lg btn-block btn-nav-bar"><i class="fa fa-print"></i> Imprimir Ticket</button></a> <!-- con este boton quiero q llame a la funcion, pero no hace ná :c -->
                 </li>
-                
+                <li>
+                    <a href="dashboard.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-dashboard fa-fw"></i> Inicio</button></a>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i> Cuenta <i class="fa fa-angle-down"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                            <a class="dropdown-item" href="eecc.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de cuenta</button></a>
+
+                            <a class="dropdown-item" href="cpp.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas Pendientes</button></a>
+
+                            <a class="dropdown-item" href="mys.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="pass.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
+                </li>
+                <li>
+                    <a href="salir.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
+                </li>
             </ul>
             <!-- /.navbar-top-links -->
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="dashboard.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-dashboard fa-fw"></i> Inicio</button></a>
-                        </li>
-                        <li>
-                            <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
-                        </li>
-                        <li>
-                            <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
-                        </li>
-                        <li>
-                            <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
-                        </li>
-                        <!--
-                        <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i> Estado de cuenta</a>
-                        </li>
-                        -->
-                        <li>
-                            <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
-                        </li>
-                        <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
             <!-- /.navbar-static-side -->
         </nav>
-<?php 
+<?php
     //resetear a moneda chilena
     function moneda_chilena($numero){
         $numero = (string)$numero;
@@ -114,11 +104,11 @@
         return strrev($tmp);
     }
 
-    $url = "http://172.16.31.111:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsecu?wsdl";
+    $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsecu?wsdl";
     $par = array(
-        'Empcod' => $_SESSION['emp_usuario'], 
-        'Rut' => $_SESSION['id_usuario'], 
-        'Pass' => $_SESSION['pass_usuario'], 
+        'Empcod' => $_SESSION['emp_usuario'],
+        'Rut' => $_SESSION['id_usuario'],
+        'Pass' => $_SESSION['pass_usuario'],
         'Validar' => $_SESSION['valid_usuario'],
         'Xml' => null,
         'Errcode' => null,
@@ -126,7 +116,7 @@
 
     $client = new SoapClient($url); // funcion(url,opciones) si uso wsdl opciones null
     $result = $client->Execute($par);
-    
+
     class cliente{
         var $titulo;
         var $rut;
@@ -149,7 +139,7 @@
         var $glosa1;
         var $glosa2;
     }
-    
+
     $var_client = new cliente();
     $tmp = explode("<glosa2>", $result->Xml);
     $var_client->glosa2 = trim(strip_tags($tmp[1]));
@@ -242,7 +232,7 @@
         $i++;
         unset($movimientos);
     }
-    
+
     $n=0;
     foreach ($mov as $key) {
         $trx1[$n] = explode("<Movimiento>", $key);
@@ -254,7 +244,7 @@
     foreach ($trx1 as $key) {
         $trx = array_merge($trx,$key);
     }
-    
+
     class movimiento{
         var $fecha;
         var $trx;
@@ -263,7 +253,7 @@
         var $cuota;
         var $monto;
     }
-    
+
     $n=0;
     foreach ($trx as $key ) {
         $tmp = explode("<monto>", $key);
@@ -281,10 +271,10 @@
         $movimientos[$n]->fecha = trim(strip_tags($tmp[0]));
         $n++;
     }
-    
+
 ?>
 
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="margin-left: 75px; margin-right: 75px;">
             <?php if(!isset($movimientos)): ?>
                 <div class="row">
                     <br><br><br>
@@ -339,17 +329,17 @@
                                     <h4>Resumen de Cuenta</h4>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 Cancelar Antes de
                                             </div>
                                             <div class="panel-body">
-                                                <div class="huge"><?php print_r($var_client->pagarhasta)?></div>    
+                                                <div class="huge"><?php print_r($var_client->pagarhasta)?></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 Monto total
@@ -437,7 +427,7 @@
 <footer>
     <div class="row">
         <div class="col-lg-12 text-center">
-            <a href="ticket-eecc.php"><button type="button" class="btn btn-primary btn-lg" onclick="animar();"><i class="fa fa-print"></i> Imprimir Ticket</button></a> <!-- con este boton quiero q llame a la funcion, pero no hace ná :c -->
+
         </div>
     </div>
 </footer>

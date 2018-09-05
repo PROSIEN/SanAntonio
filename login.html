@@ -43,7 +43,8 @@
         document.getElementById('contenido').style.visibility = 'hidden';
       }
     </script>
-    <script type="text/javascript">
+      <!-- Script para que funcione el teclado en pantalla-->
+      <script type="text/javascript">
         var focos=[]; //arreglo para guardar los focos.
         function id( el ){
                 return document.getElementById( el );
@@ -79,30 +80,29 @@
           document.getElementById(Ultimofoco).value=strng.substring(0,strng.length-1);
         }
       </script>
-  
-  </head>
+</head>
 
-<body onunload="spinneroff();">
+<body onunload="spinneroff();" style="font-size: 24px;">
   <div id="wrapper">
     <div id="waitani" style="position: absolute;top:98px;left:532px;width:88px;height:85px;z-index: 999;visibility: hidden;"><img src="img/loading.gif" height="100%" width="100%" /></div>
     <div id="contenido" class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="login-panel panel panel-default">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="login-panel panel panel-default" style="margin-top: 30px">
                     <div class="panel-heading text-center">
-                        <img src="img/Autoconsulta.png" style="z-index: 999;">
+                        <img src="img/Autoconsulta.png">
                     </div>
                     <div class="panel-body">
                         <form role="form" method="POST" action="dashboard.php" onsubmit="spinner();">
                             <fieldset id="area">
                                 <div class="form-group">
                                     <label>RUT</label>
-                                    <input id="entrada_1" class="form-control input input_rut" placeholder="Ingrese rut sin puntos ni guión" autocomplete="off" type="text" name="rut">
+                                    <input id="entrada_1" class="form-control input input_rut" placeholder="Ingrese su rut sin puntos ni guion" autocomplete="off" type="text" name="rut">
                                 </div>
                                 <div class="form-group">
                                   <label>Contraseña</label>
-                                    <input id="entrada_2" class="form-control input" placeholder="Contraseña" type="password" name="pass" >
-                                </div> 
+                                    <input id="entrada_2" class="form-control input" placeholder="Ingrese su contraseña" type="password" name="pass" >
+                                </div>
                                 <div class="col-md-6">
                                   <button type="submit" class="btn btn-lg btn-success btn-block">Entrar</button>
                                 </div>
@@ -114,21 +114,21 @@
                     </div>
                 </div>
               </div>
-          </div>
+            </div>
             <div class="row">
-              <div class="col-md-10 col-md-offset-1">
-                <div class="alert alert-warning text-center">
+              <div class="col-md-12 text-center">
+                <div class="alert alert-warning">
                   <button type="button" class="btn btn-warning btn-circle"><i class="fa fa-question"></i>
                   </button>
                   Si no tiene aun su clave, solicitela en crédito
                 </div>
-                  
+
               </div>
             </div>
-            <div class="row">
+              <!-- Definicion de los botones del teclado, incluyendo el para borrar-->
+              <div class="row">
               <div class="col-md-6 col-md-offset-3 text-center">
                     <div class="btn-group">
-                      <fieldset> <!-- no me preguntes porque es necesario este fieldset, pero sin el el boton se ve feo-->
                         <fieldset id="teclado">
                           <fieldset id="numbers">
                             <fieldset style="padding-bottom: 4px;">
@@ -152,20 +152,14 @@
                             </fieldset>
                           </fieldset>
                         </fieldset>
-                    </fieldset>
                     </div>
-              </div>
+                  </div>
             </div>
-            <br>
-            <div class="row">
-              <div class="col-md-6 col-md-offset-3 text-center">
-                <a href="index.html">
-                  <button type="button" class="btn btn-info btn-lg"><i class="fa fa-home"></i> Volver</button>
-                </a>
-              </div>
-            </div>
-        </div>
-    </div>
+  </div>
+  <br><br><br><br><br><br>
+  <div class="col-md-12 text-center">
+      <img src="img/footer.png">
+  </div>
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -179,5 +173,4 @@
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
     </body>
-
 </html>

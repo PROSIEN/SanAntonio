@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
 
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>AutoConsulta San Antonio</title>
+    <title>AutoConsulta</title>
     <link rel="shorcut icon" href="img/sanantonio.ico">
 
     <!-- Bootstrap Core CSS -->
@@ -26,6 +26,7 @@
 
     <!-- Custom Fonts -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -71,69 +72,55 @@
       </script>
 
 </head>
-<body>
-    <?php 
-        session_start();
-        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
-            // last request was more than 30 minutes ago
-            session_unset();     // unset $_SESSION variable for the run-time
-            session_destroy();   // destroy session data in
-            header('location: login.html');
-        }
+<body style="font-size: 24px;">
+    <?php session_start();
+    date_default_timezone_set("America/New_York");
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
+        // last request was more than 30 minutes ago
+        session_unset();     // unset $_SESSION variable for the run-time
+        session_destroy();   // destroy session data in
+        header('location: login.html');
+    }
+    $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
     ?> <!-- con esta lidea puedes usar las variables de sesion en la pagina-->
-
-    <div id="wrapper">  
+    <div id="wrapper">
     <div id="waitani" style="position: absolute;top:98px;left:532px;width:88px;height:85px;z-index: 999;visibility: hidden;"><img src="img/loading.gif"></div>
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="dashboard.php"><img src="img/Logo-Autoconsulta.png" style="margin-top: -15px;"></a>
+                <a class="navbar-brand" href="dashboard.php"><img src="img/Logo-Autoconsulta.png"></a>
             </div>
             <!-- /.navbar-header -->
-
+            <!-- Genrera valores -->
             <ul class="nav navbar-top-links navbar-right">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i><?php print_r($_SESSION['id_usuario'])?></a>
+                <li>
+                    <a href="dashboard.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-dashboard fa-fw"></i> Inicio</button></a>
                 </li>
-                
+                <li>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i> Cuenta <i class="fa fa-angle-down"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  
+                            <a class="dropdown-item" href="eecc.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de cuenta</button></a>
+
+                            <a class="dropdown-item" href="cpp.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas Pendientes</button></a>
+
+                            <a class="dropdown-item" href="mys.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="pass.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
+                </li>
+                <li>
+                    <a href="salir.php"><button type="button" class="btn btn-primary btn-lg btn-block btn-nav-bar"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
+                </li>
             </ul>
             <!-- /.navbar-top-links -->
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="dashboard.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-dashboard fa-fw"></i> Inicio</button></a>
-                        </li>
-                        <li>
-                            <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
-                        </li>
-                        <li>
-                            <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
-                        </li>
-                        <li>
-                            <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
-                        </li>
-                        <!--
-                        <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i> Estado de cuenta</a>
-                        </li>
-                        -->
-                        <li>
-                            <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
-                        </li>
-                        <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
             <!-- /.navbar-static-side -->
         </nav>
 
-        <div id="page-wrapper">
+        <div id="page-wrapper" style="margin-left: 75px; margin-right: 75px;">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Cambio de Contraseña</h1>
@@ -142,7 +129,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div id="area" class="col-lg-6 col-md-6">
+                <div id="area" class="col-md-8 col-md-offset-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Complete los siguientes campos para continuar
@@ -162,10 +149,9 @@
                                         </div>
                                         <div class="form-group">
                                             <input id="entrada_3" class="form-control" type="password" name="newpass1" maxlength="20" placeholder="Repita su nueva contraseña">
-                                            
                                         </div>
-                                        <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
-                                        <button type="button" class="btn btn-danger" name="clean" onclick="deleteTag()"><i class="fa fa-caret-square-o-left"></i> Borrar</button>
+                                        <button type="submit" class="btn btn-lg btn-success">Cambiar Contraseña</button>
+                                        <button type="button" class="btn btn-lg btn-danger" name="clean" onclick="deleteTag()"><i class="fa fa-caret-square-o-left"></i> Borrar</button>
                                     </form>
                                 </div>
                             </div>
@@ -175,38 +161,38 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-               <div class="col-lg-4 col-md-4">
-                    <div class="btn-group text-center">
-                      <fieldset> <!-- no me preguntes porque es necesario este fieldset, pero sin el el boton se ve feo-->
-                        <fieldset id="teclado">
-                          <fieldset id="numbers">
-                            <fieldset style="padding-bottom: 4px;">
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="1" value="1" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="2" value="2" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="3" value="3" />
-                            </fieldset>
-                            <fieldset style="padding-bottom: 4px;">
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="4" value="4" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="5" value="5" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="6" value="6" />
-                            </fieldset>
-                            <fieldset style="padding-bottom: 4px;">
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="7" value="7" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="8" value="8" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="9" value="9" />
-                            </fieldset>
-                            <fieldset>
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="0" value="0" />
-                              <input class="btn btn-primary btn-circle btn-xl" type="button" name="K" value="K" />
-                            </fieldset>
-                          </fieldset>
-                        </fieldset>
-                        <br>
-                    </fieldset>
-                    </div>
-              </div>
             </div>
             <!-- /.row -->
+            <br>
+            <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                  <div class="btn-group">
+                      <fieldset id="teclado">
+                        <fieldset id="numbers">
+                          <fieldset style="padding-bottom: 4px;">
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="1" value="1" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="2" value="2" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="3" value="3" />
+                          </fieldset>
+                          <fieldset style="padding-bottom: 4px;">
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="4" value="4" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="5" value="5" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="6" value="6" />
+                          </fieldset>
+                          <fieldset style="padding-bottom: 4px;">
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="7" value="7" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="8" value="8" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="9" value="9" />
+                          </fieldset>
+                          <fieldset>
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="0" value="0" />
+                            <input class="btn btn-primary btn-circle btn-xl" type="button" name="K" value="K" />
+                          </fieldset>
+                        </fieldset>
+                      </fieldset>
+                  </div>
+                </div>
+          </div>
         </div>
         <!-- /#page-wrapper -->
 

@@ -225,11 +225,11 @@ table.dataTable thead .sorting:after {
   line-height: 1.33;
 }
 .btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
+  width: 120px;
+  height: 120px;
   padding: 10px 16px;
-  border-radius: 15px;
-  font-size: 24px;
+  border-radius: 40px;
+  font-size: 45px;
   line-height: 1.33;
 }
 .show-grid [class^="col-"] {
