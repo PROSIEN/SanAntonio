@@ -49,6 +49,12 @@
             header('location: login.html');
         }
     ?>
+    <?php
+      // Si la contraseña es menor a 5 caracteres
+      if (strlen($_SESSION['pass_usuario']) < 5) {
+        header('location: pass.php');
+      }
+    ?>
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -71,15 +77,15 @@
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>
@@ -116,9 +122,9 @@
 
     $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsmys?wsdl";
     $par = array(
-        'Empcod' => $_SESSION['emp_usuario'], 
-        'Rut' => $_SESSION['id_usuario'], 
-        'Pass' => $_SESSION['pass_usuario'], 
+        'Empcod' => $_SESSION['emp_usuario'],
+        'Rut' => $_SESSION['id_usuario'],
+        'Pass' => $_SESSION['pass_usuario'],
         'Validar' => $_SESSION['valid_usuario'],
         'Xml' => null,
         'Errcode' => null,
@@ -126,7 +132,7 @@
 
     $client = new SoapClient($url); // funcion(url,opciones) si uso wsdl opciones null
     $result = $client->Execute($par);
-    
+
     class cliente {
         var $titulo;
         var $desde;
@@ -143,12 +149,12 @@
         var $glosa1;
         var $glosa2;
     }
-    
+
     $var_client = new cliente();
     $tmp = explode("<glosa2>", $result->Xml);
     $var_client->glosa2 = trim(strip_tags($tmp[1]));
     $tmp = $tmp[0];
-    
+
     $tmp = explode("<glosa1>", $tmp);
     $var_client->glosa1 = trim(strip_tags($tmp[1]));
     $tmp = $tmp[0];
@@ -210,7 +216,7 @@
         var $num;
         var $monto;
     }
-    
+
     $n=0;
     foreach ($trx as $key) {
         $tran[$n] = new transaccion();
@@ -227,7 +233,7 @@
         $tran[$n]->fecha = trim(strip_tags($tmp[0]));
         $n++;
     }
-   
+
 ?>
         <div id="page-wrapper">
             <?php if(!isset($tran)):?>

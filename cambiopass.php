@@ -36,8 +36,9 @@
 
 </head>
 <body>
-<?php 
-    session_start(); 
+<?php
+    error_reporting(0);
+    session_start();
     if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
         // last request was more than 30 minutes ago
         session_unset();     // unset $_SESSION variable for the run-time
@@ -57,7 +58,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i><?php print_r($_SESSION['id_usuario'])?></a>
                 </li>
-                
+
             </ul>
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
@@ -68,15 +69,15 @@
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>
@@ -85,7 +86,7 @@
                         -->
                         <li>
                             <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
+
                         </li>
                         <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
                         </li>
@@ -94,7 +95,7 @@
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
-        </nav>    
+        </nav>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -105,19 +106,20 @@
     $oldpass=$_POST['oldpass'];
     $newpass=$_POST['newpass'];
     $newpass1=$_POST['newpass1'];
-?> 
+?>
+
 <!--Validar nueva pass-->
-<?php if($newpass != $newpass1):?>
-            <div class="row text-center">
-                <div class="col-lg-8">
-                    <div class="alert alert-danger">
-                        ERROR: Nueva contraseña no coincide
-                    </div>
-                    <a href="pass.php"><button type="button" class="btn btn-outline btn-danger">Volver</button></a>
-                </div>
+<?php if($newpass != $newpass1 or strlen($newpass) <= 4):?>
+        <div class="row text-center">
+            <div class="col-lg-8">
+              <div class="alert alert-danger">
+                ERROR: Nueva contraseña no coincide o es menor a 5 dígitos
+              </div>
+              <a href="pass.php"><button type="button" class="btn btn-outline btn-danger">Volver</button></a>
             </div>
-<!--Si coinciden las nuevas credenciales-->
-<?php else: 
+        </div>
+<!--Si coinciden las nuevas credenciales y el largo > 4-->
+<?php else:
     $emp=1;
     $validate='SI';
     $url="http://172.16.31.111:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awscambiopass?wsdl";
@@ -132,21 +134,23 @@
     $client = new SoapClient($url);
     $result = $client->Execute($par);
 ?>
-            <!-- /.row -->
+
+    <!-- Si la consulta al web service fue exitosa -->
     <?php if ($result->Errcode == '0'): ?>
             <div class="row text-center">
                 <div class="col-lg-8">
                     <div class="alert alert-success text-center">
-                        Se ha modificado correctamente la contraseña 
+                        Se ha modificado correctamente la contraseña
                     </div>
                     <a href="salir.php"><button type="button" class="btn btn-outline btn-success">Volver a Login</button></a>
                 </div>
             </div>
+    <!-- Si dio error la consulta al web service -->
     <?php else:?>
             <div class="row text-center">
                 <div class="col-lg-8">
                     <div class="alert alert-danger text-center">
-                        <?php print_r($result->Errdesc);?> 
+                        <?php print_r($result->Errdesc);?>
                     </div>
                     <a href="pass.php"><button type="button" class="btn btn-outline btn-danger">Volver</button></a>
                 </div>
@@ -175,5 +179,4 @@
     <script src="dist/js/sb-admin-2.js"></script>
 
 </body>
-
 </html>

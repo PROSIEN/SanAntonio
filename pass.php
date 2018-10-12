@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
 
     <meta charset="utf-8">
@@ -72,7 +72,8 @@
 
 </head>
 <body>
-    <?php 
+    <?php
+        error_reporting(0);
         session_start();
         if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
             // last request was more than 30 minutes ago
@@ -82,7 +83,7 @@
         }
     ?> <!-- con esta lidea puedes usar las variables de sesion en la pagina-->
 
-    <div id="wrapper">  
+    <div id="wrapper">
     <div id="waitani" style="position: absolute;top:98px;left:532px;width:88px;height:85px;z-index: 999;visibility: hidden;"><img src="img/loading.gif"></div>
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -94,7 +95,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i><?php print_r($_SESSION['id_usuario'])?></a>
                 </li>
-                
+
             </ul>
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
@@ -105,15 +106,15 @@
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>
@@ -122,7 +123,7 @@
                         -->
                         <li>
                             <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
+
                         </li>
                         <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
                         </li>
@@ -143,6 +144,12 @@
             <!-- /.row -->
             <div class="row">
                 <div id="area" class="col-lg-6 col-md-6">
+                  <?php if (strlen($_SESSION['pass_usuario']) < 5):?>
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        Por su seguridad cambie la contraseña por una de al menos 5 dígitos.
+                    </div>
+                  <?php endif; ?>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Complete los siguientes campos para continuar
@@ -157,12 +164,12 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Nueva Contraseña</label>
-                                            <p class="help-block">Máximo 20 caracteres</p>
+                                            <p class="help-block">Mínimo 5 y máximo 20 caracteres</p>
                                             <input id="entrada_2" class="form-control" type="password" name="newpass" maxlength="20" placeholder="Ingrese aqui su nueva contraseña">
                                         </div>
                                         <div class="form-group">
                                             <input id="entrada_3" class="form-control" type="password" name="newpass1" maxlength="20" placeholder="Repita su nueva contraseña">
-                                            
+
                                         </div>
                                         <button type="submit" class="btn btn-success">Cambiar Contraseña</button>
                                         <button type="button" class="btn btn-danger" name="clean" onclick="deleteTag()"><i class="fa fa-caret-square-o-left"></i> Borrar</button>

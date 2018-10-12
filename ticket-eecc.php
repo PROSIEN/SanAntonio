@@ -256,7 +256,7 @@ else {
   $printer->text("Crédito:    " . $var_client->credito . "\n");
   $printer->text("Disponible: " . $var_client->disponible . "\n");
   $printer->text("Atrazado:   " . $var_client->atrazado . "\n");
-  $printer->text("CAE prepago:" . $var_client->caepre . "\n");
+  $printer->text("CAE prepago:" . $var_client->caepre . "%\n");
   $printer->text("CAE compra: " . $var_client->caecompra . "%\n");
   $printer->feed(1);
   $printer->text("   Pagar Hasta             Monto\n");

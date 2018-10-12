@@ -47,11 +47,11 @@
         document.getElementById('waitani').style.visibility = 'visible';
       document.getElementById('contenido').style.visibility = 'hidden';
         }
-    function print_ticket() {   
-        window.print();     
+    function print_ticket() {
+        window.print();
     }
     </script>
-    <style type="text/css"> 
+    <style type="text/css">
         .example-print {
             display: none;
         }
@@ -71,6 +71,7 @@
 
 </head>
 <?php
+error_reporting(0);
 session_start();
 date_default_timezone_set("America/New_York");
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
@@ -86,14 +87,15 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
     $rutsdv = str_replace(".", "", $_POST['rut']);
     $rutsdv=str_replace("-", "", $rutsdv);
     $dv=substr($rutsdv, -1);
-    $rutsdv=substr($rutsdv, 0, -1)
-;    $_SESSION['id_usuario']=$rutsdv."-".$dv;
+    $rutsdv=substr($rutsdv, 0, -1);
+    $_SESSION['id_usuario']=$rutsdv."-".$dv;
     $_SESSION['pass_usuario']=$_POST['pass'];
     $_SESSION['valid_usuario']='SI';
     $_SESSION['emp_usuario']=1;
     unset($rutsdv);
     unset($dv);
-    }
+
+  }
 //saque todo esto del if, para poder usarlo sin necesidad de POST
     $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awssal?wsdl";
     $par = array(
@@ -136,7 +138,6 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
 ?>
 <?php if($result->Errcode !=0):?>
     <!-- codigo en caso de algun error de logueo -->
-
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -155,6 +156,13 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
         </div>
     </div>
 <?php else: ?>
+
+<?php
+  // Si la contraseña es menor a 5 caracteres
+  if (strlen($_SESSION['pass_usuario']) < 5) {
+    header('location: pass.php');
+  }
+?>
 <body onunload="spinneroff();" onload="update_qrcode();">
     <!-- <div id="wrapper">  Ese id ya estaba -->
         <!-- Navigation -->
@@ -177,7 +185,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                         $n++;
                 }
                 //separa nombre
-                $name = explode(" ", $tag[19]); 
+                $name = explode(" ", $tag[19]);
                 //resetear a moneda chilena
                 $_SESSION['nombre_usuario']=ucfirst(strtolower($name[0])); //esto es para ocupar la variable de sesion y saber si se destruye o no
                 function moneda_chilena($numero){
@@ -194,7 +202,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                     return strrev($tmp);
                 }
                 $_SESSION['qr'] =str_replace("*", "", $tag[2]) ;
-            ?>     
+            ?>
             <!-- /.navbar-header -->
             <!-- Genrera valores -->
 
@@ -211,15 +219,15 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>
@@ -228,7 +236,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                         -->
                         <li>
                             <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
+
                         </li>
                         <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
                         </li>
@@ -344,7 +352,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                                             <td>$<?php print_r(moneda_chilena($tag[9]))?> </td>
                                         </tr>
                                     <?php endif;?>
-                                    <?php if($tag[7] != 0): ?>   
+                                    <?php if($tag[7] != 0): ?>
                                         <tr>
                                             <td><?php print_r($tag[8])?></td>
                                             <td>$<?php print_r(moneda_chilena($tag[7]))?> </td>
@@ -363,7 +371,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                                         </tr>
                                     <?php endif;?>
                                     </tbody>
-                                </table>    
+                                </table>
                             </div>
                             <?php endif;?>
                         </div>
@@ -379,9 +387,9 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                                 Su dia de pago registrado en nuestro sistema es el <?php print_r($tag[18]) ?>
                             </div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
             <!-- /.row -->
@@ -416,7 +424,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                                 <table class="table table-striped">
                                     <tr>
                                         <th>Cupo Disponible</th>
-                                        <td>$<?php print_r(moneda_chilena($tag[15])) ?></td>       
+                                        <td>$<?php print_r(moneda_chilena($tag[15])) ?></td>
                                     </tr>
                                     <tr>
                                         <th>Deuda Total</th>
@@ -488,7 +496,7 @@ if (isset($_POST['rut']) and isset($_POST['pass'])){
                                 </table>
                             <?php endif; ?>
                             </div>
-                            
+
                             <br>
                             <div style="margin-top: -60px;">
                                 <form style="visibility: hidden;">

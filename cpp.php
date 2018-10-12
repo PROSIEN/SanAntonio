@@ -40,6 +40,7 @@
 
 <body>
     <?php
+        error_reporting(0);
         session_start();
         if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
             // last request was more than 30 minutes ago
@@ -47,6 +48,12 @@
             session_destroy();   // destroy session data in
             header('location: login.html');
         }
+    ?>
+    <?php
+      // Si la contraseña es menor a 5 caracteres
+      if (strlen($_SESSION['pass_usuario']) < 5) {
+        header('location: pass.php');
+      }
     ?>
     <div id="wrapper">
         <!-- Navigation -->
@@ -70,15 +77,15 @@
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>

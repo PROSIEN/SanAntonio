@@ -41,13 +41,19 @@
 <body>
     <?php
         error_reporting(0);
-        session_start(); 
+        session_start();
         if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 360)) {
             // last request was more than 30 minutes ago
             session_unset();     // unset $_SESSION variable for the run-time
             session_destroy();   // destroy session data in
             header('location: login.html');
         }
+    ?>
+    <?php
+      // Si la contraseña es menor a 5 caracteres
+      if (strlen($_SESSION['pass_usuario']) < 5) {
+        header('location: pass.php');
+      }
     ?>
     <div id="wrapper">
         <!-- Navigation -->
@@ -60,7 +66,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li><a href="#"><i class="fa fa-user fa-fw"></i><?php print_r($_SESSION['id_usuario'])?></a>
                 </li>
-                
+
             </ul>
             <!-- /.navbar-top-links -->
             <div class="navbar-default sidebar" role="navigation">
@@ -71,15 +77,15 @@
                         </li>
                         <li>
                             <a href="eecc.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-calendar-check-o fa-fw"></i> Estado de Cuenta</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="cpp.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-bar-chart-o fa-fw"></i> Cuotas pendientes</button></a>
-                            
+
                         </li>
                         <li>
                             <a href="mys.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-folder fa-fw"></i> Movimientos</button></a>
-                            
+
                         </li>
                         <!--
                         <li>
@@ -88,7 +94,7 @@
                         -->
                         <li>
                             <a href="pass.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-lock fa-fw"></i> Contraseña</button></a>
-                            
+
                         </li>
                         <li><a href="salir.php"><button type="button" class="btn btn-outline btn-primary btn-lg btn-block"><i class="fa fa-sign-out fa-fw"></i> Salir</button></a> <!-- te cambio el link, para destruir las variables de sesion -->
                         </li>
@@ -98,7 +104,7 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-<?php 
+<?php
     //resetear a moneda chilena
     function moneda_chilena($numero){
         $numero = (string)$numero;
@@ -116,9 +122,9 @@
 
     $url = "http://localhost:8080/xwcycgx15je/servlet/com.xwcycgx15.autoconsulta.awsecu?wsdl";
     $par = array(
-        'Empcod' => $_SESSION['emp_usuario'], 
-        'Rut' => $_SESSION['id_usuario'], 
-        'Pass' => $_SESSION['pass_usuario'], 
+        'Empcod' => $_SESSION['emp_usuario'],
+        'Rut' => $_SESSION['id_usuario'],
+        'Pass' => $_SESSION['pass_usuario'],
         'Validar' => $_SESSION['valid_usuario'],
         'Xml' => null,
         'Errcode' => null,
@@ -126,7 +132,7 @@
 
     $client = new SoapClient($url); // funcion(url,opciones) si uso wsdl opciones null
     $result = $client->Execute($par);
-    
+
     class cliente{
         var $titulo;
         var $rut;
@@ -149,7 +155,7 @@
         var $glosa1;
         var $glosa2;
     }
-    
+
     $var_client = new cliente();
     $tmp = explode("<glosa2>", $result->Xml);
     $var_client->glosa2 = trim(strip_tags($tmp[1]));
@@ -242,7 +248,7 @@
         $i++;
         unset($movimientos);
     }
-    
+
     $n=0;
     foreach ($mov as $key) {
         $trx1[$n] = explode("<Movimiento>", $key);
@@ -254,7 +260,7 @@
     foreach ($trx1 as $key) {
         $trx = array_merge($trx,$key);
     }
-    
+
     class movimiento{
         var $fecha;
         var $trx;
@@ -263,7 +269,7 @@
         var $cuota;
         var $monto;
     }
-    
+
     $n=0;
     foreach ($trx as $key ) {
         $tmp = explode("<monto>", $key);
@@ -281,7 +287,7 @@
         $movimientos[$n]->fecha = trim(strip_tags($tmp[0]));
         $n++;
     }
-    
+
 ?>
 
         <div id="page-wrapper">
@@ -345,7 +351,7 @@
                                                 Cancelar Antes de
                                             </div>
                                             <div class="panel-body">
-                                                <div class="huge"><?php print_r($var_client->pagarhasta)?></div>    
+                                                <div class="huge"><?php print_r($var_client->pagarhasta)?></div>
                                             </div>
                                         </div>
                                     </div>
